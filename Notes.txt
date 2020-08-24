@@ -1,0 +1,22 @@
+Strings : 
+les strings on peut les declarer a l'aide de 2 (") ou bien 3 (") 
+concaténation a l'aide de "+"
+on peut utiliser des variables dans des string(pour complété une string dynamique qui change suivant la var)
+en utilisant la fonction format() qui prend en paramettre les var et leur valeur
+
+"/" nous donne le resultat avec la virgule "//" nous donne le resultat sans virgule
+pour dir si c egale ou nan on peut utiliser "is" ou "is not"
+
+pour convertir une string a un iunteger  on utilise la fonction 'int()' et pour les floats on utilise 'float()'   
+on peut multiplier les strings genre "test" * 10
+    STRINGS
+        dans les string il est preferer d'utiliser les (") car si on veut utiliser l'apostroph on aura pas besoin de faire l'anti slache 
+        si on veut ecrir des string en 2 ligne ou plus on utilise """ some text """  si on on peut utiliser le \n pour sauter la ligne  
+    LISTS
+        on crée les tableau avec [ ]  
+        append() : ajoute un element a la liste (au dernier)
+        pop(): supprimer le dernier element de la liste  
+        si on veut acceder au dernier element de la list on utilise nom_list[-1]  (c l'index numero -1)
+    FONCTIONS
+        pour declarer une fonction on utilise : def nom_de_la_fonction() : 
+        il faut laisse un vide a gauche pour specifier qu'on est encore dans la fonction car ya pas de {} pour declarer le debut et la fin de la fonction

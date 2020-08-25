@@ -20,3 +20,16 @@ on peut multiplier les strings genre "test" * 10
     FONCTIONS
         pour declarer une fonction on utilise : def nom_de_la_fonction() : 
         il faut laisse un vide a gauche pour specifier qu'on est encore dans la fonction car ya pas de {} pour declarer le debut et la fin de la fonction
+        de preference il faut avoir 2 ligne entre les fonctions 
+        on peut passer des argument par default au fonction dont on aura le choix  de le passer ou pas  lors de l'utilisation de  la focntion 
+        on peut suitcher entre les positions des arguments de la fonction mais en presisant le nom des arguments et leur donner les valeur qu'on veut (KEYWORD ARGUMENTS)
+        pour lir des string depuis le clavier on utilise la fonction " var_name = input("enter your text: ") "
+            la fonction input lie que du texte si on veut lire des nombre ou boolean il faut le convertir 
+        si on declare une var globale et on lui donne une valeur puis on réutilise dans une fonction alors kan on sort de la fonction sa valeur restera la valeur de la variable globale (la valeur original)
+            si on veut modifier la var globale on declare que c la var global en utilisant  "global var_name" puis on l'utilise  
+
+si on veut faire un commentaire on utilise "#"  pour commenter toute la ligne 
+et si on veut juste ecrire un mot de commentaire dans la ligne on utilise """le commentaire """ et cela nous aide a bien comprendre le code
+et pour rendre le code bien claire on peut definir pour chaque fonction les arguments et leurs signification
+
+on peut ecrire les ligne de code qui sont long en plusieurs ligne de code pour avoir a clean code et visible 

@@ -33,3 +33,17 @@ et si on veut juste ecrire un mot de commentaire dans la ligne on utilise """le 
 et pour rendre le code bien claire on peut definir pour chaque fonction les arguments et leurs signification
 
 on peut ecrire les ligne de code qui sont long en plusieurs ligne de code pour avoir a clean code et visible 
+
+
+    LOOPS  
+        on utilise for dans les list pour repeter un code pour chaque case de la list  
+        pour (avant qu'elle finisse)  quiter la boucle on utilise "break"
+        et pour sauter une itteration on utilise continue
+    IF 
+        pour exprimer" else if " on utilise "elif" 
+        si on utilise plusieurs elif alors on utilise un seul else a la fin 
+
+l'operatuer "is" est presque comme l'operatuer "== " , et kan il ya 2 var qui porte la mm valeur l'operateur "==" nous donne  true  et "is" nous donne false 
+is verifie si vraiment sont les mm objet dans la memoire (genre pour donner vrai il faut compearer la mm var avec elle mm )
+et l'operateur "in" nous donne si une valeur est dans une liste ou un tab 
+l'operateur "not" nous la negation d'une expression like "2 not in tab "

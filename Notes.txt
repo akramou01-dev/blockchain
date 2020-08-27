@@ -39,6 +39,11 @@ on peut ecrire les ligne de code qui sont long en plusieurs ligne de code pour a
         on utilise for dans les list pour repeter un code pour chaque case de la list  
         pour (avant qu'elle finisse)  quiter la boucle on utilise "break"
         et pour sauter une itteration on utilise continue
+        dans les boucle on peu utilise "else" genre kan la condition de la boucle ne sera valider ou la boucle est terminer  alors ce block doit s'executer la mm utilisation que if-else 
+        dans la boucle for pour avoir l'indexe de la boucle (genre le i de la boucle for dans js ) on utilise la fonction range()
+            alors on utilise "for i in range(longeur_de_la_boucle): 
+            range peut avoir 2 argument : le debut et la fin de la boucle 
+            comme elle peut avoir 3 argument : le debut , la fin et le pas(the step)
     IF 
         pour exprimer" else if " on utilise "elif" 
         si on utilise plusieurs elif alors on utilise un seul else a la fin 
@@ -47,3 +52,5 @@ l'operatuer "is" est presque comme l'operatuer "== " , et kan il ya 2 var qui po
 is verifie si vraiment sont les mm objet dans la memoire (genre pour donner vrai il faut compearer la mm var avec elle mm )
 et l'operateur "in" nous donne si une valeur est dans une liste ou un tab 
 l'operateur "not" nous la negation d'une expression like "2 not in tab "
+
+    ya pas de swith in Python 

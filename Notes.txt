@@ -54,3 +54,17 @@ et l'operateur "in" nous donne si une valeur est dans une liste ou un tab
 l'operateur "not" nous la negation d'une expression like "2 not in tab "
 
     ya pas de swith in Python 
+
+Structure de Donnée complexe
+    Set 
+        on peut le modifier mais les elements ne sont pas ordonnés et on peut pas avoir des données dupliqués , on peut avoir un ou plsr type de données
+        on les crée en utilisant les {}
+    Tuple 
+        on peut pas les modifier , les elemnts sont ordonnés et les dupliqués sont accépter 
+        en les crée en utilisant les ()
+        pour extracter les donnée des tupes ==> var_1, var_2= tuple_var ; alors le premiere element est dans la var_1 et le 2eme element est dans la var_2 
+    Dictionary 
+        il est similaire au Js Object avec des key-value paires
+        on peut pas le changer et les element ne sont pas ordonnés pas de dupliqués pour les field_name , on peut trouver un mix de donnée dedant 
+        on le crée comme on crée le JS Object
+    

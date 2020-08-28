@@ -1,4 +1,12 @@
+genesis_block = {
+    'previous_hash': '',
+    'index': 0,
+    'transactions': []
+}
 blockchain = []
+blockchain.append(genesis_block)
+open_transactions = []
+owner = 'Me'
 
 
 def get_last_blockchain_value():
@@ -9,23 +17,33 @@ def get_last_blockchain_value():
     return blockchain[-1]
 
 
-def add_value(value, last_transaction):
+def add_transaction(recipient, sender=owner, amount=1.0):
     """Append a new value as the last value of the blockchain"""
-    if last_transaction == None:
-        blockchain.append([value])
-    else:
-        blockchain.append([last_transaction, value])
+    transaction = {
+        'sender': sender,
+        'recipient': recipient,
+        'amount': amount}
+    open_transactions.append(transaction)
 
 
 def get_transaction_value():
-    return float(input("enter your transaction amount :"))
+    tx_recipient = input('Enter the recpient name of the transaction : ')
+    tx_amount = float(input("enter your transaction amount :"))
+    return (tx_recipient, tx_amount)
 
 
 def get_user_choice():
     return input("please enter your choice : ")
 
-# add_value(last_transaction=get_last_blockchain_value(),
-#           value=get_transaction_value())
+
+def mine_block():
+    """Creating the Blocks"""
+    # we are using the Dictionaries data structure
+    last_block = blockchain[-1]  # acces the last element of the blockchain
+    block = {'previous_hash': 'XYZ',
+             'index': len(blockchain),
+             'transactions': open_transactions}
+    blockchain.append(block)
 
 
 def print_blockchain_elements():
@@ -33,8 +51,8 @@ def print_blockchain_elements():
     for i in range(len(blockchain)):
         print("Printing Block N°=", i)
         print(blockchain[i])
-    else : 
-        print( " - " * 20)
+    else:
+        print(" - " * 20)
 
 
 def verify_chain():
@@ -47,20 +65,9 @@ def verify_chain():
         else:
             is_valid = False
             break
-        block_index+=1
+        block_index += 1
+    return is_valid
 
-    # for block in blockchain:
-    #     if block_index==0:
-    #         """ pour ignorer la premiere case car elle n'a pas de previous block"""
-    #         block_index+=1
-    #         continue
-    #     elif block[0] == blockchain[block_index - 1]:
-    #         is_valid = True
-    #     else:
-    #         is_valid = False
-    #         break
-    #     block_index+=1
-    return is_valid 
 
 wating_for_input = True
 while wating_for_input:
@@ -71,13 +78,12 @@ while wating_for_input:
     print("q: Quit !")
     user_choice = get_user_choice()
     if user_choice == "1":
-        if get_last_blockchain_value() == None:
-            add_value(float(input(
-                "Enter the first element of the blockchain : ")), get_last_blockchain_value())
-        else:
-            add_value(get_transaction_value(), get_last_blockchain_value())
+        tx_data = get_transaction_value()
+        recipient, amount = tx_data
+        add_transaction(recipient, amount=amount)
+        print(open_transactions)
     elif user_choice == "q":
-        wating_for_input = False    
+        wating_for_input = False
     elif user_choice == "2":
         print_blockchain_elements()
     elif user_choice == "h":
@@ -88,7 +94,7 @@ while wating_for_input:
     if not verify_chain():
         print("invalid blockchain")
         break
-else : 
+else:
     print("User left !")
 
 

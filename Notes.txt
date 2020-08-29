@@ -17,6 +17,10 @@ on peut multiplier les strings genre "test" * 10
         append() : ajoute un element a la liste (au dernier)
         pop(): supprimer le dernier element de la liste  
         si on veut acceder au dernier element de la list on utilise nom_list[-1]  (c l'index numero -1)
+        pour modifier les valeur de la liste on peut utiliser "List-Comprehension"
+                syntax :  nvll_liste = [element for element in list ] genre on dit pour tout element dans la liste list alors donne nous element 
+                si on veut dir le double alors c = [element * 2 for element in list]
+                on peut faire une list-Comprehension avec "if" en ajoutant la condition a la fin de la list-Comprehension
     FONCTIONS
         pour declarer une fonction on utilise : def nom_de_la_fonction() : 
         il faut laisse un vide a gauche pour specifier qu'on est encore dans la fonction car ya pas de {} pour declarer le debut et la fin de la fonction
@@ -44,6 +48,8 @@ on peut ecrire les ligne de code qui sont long en plusieurs ligne de code pour a
             alors on utilise "for i in range(longeur_de_la_boucle): 
             range peut avoir 2 argument : le debut et la fin de la boucle 
             comme elle peut avoir 3 argument : le debut , la fin et le pas(the step)
+        pour la boucle for on peut utiliser enumerate()  et nous retourne un tuple(valeur, son_indexe) donc pour l(itterateur on peut utiliser un tuple)
+
     IF 
         pour exprimer" else if " on utilise "elif" 
         si on utilise plusieurs elif alors on utilise un seul else a la fin 
@@ -58,7 +64,7 @@ l'operateur "not" nous la negation d'une expression like "2 not in tab "
 Structure de Donnée complexe
     Set 
         on peut le modifier mais les elements ne sont pas ordonnés et on peut pas avoir des données dupliqués , on peut avoir un ou plsr type de données
-        on les crée en utilisant les {}
+        on les crée en utilisant les {} ou avec "set([infos..])
     Tuple 
         on peut pas les modifier , les elemnts sont ordonnés et les dupliqués sont accépter 
         en les crée en utilisant les ()
@@ -67,4 +73,6 @@ Structure de Donnée complexe
         il est similaire au Js Object avec des key-value paires
         on peut pas le changer et les element ne sont pas ordonnés pas de dupliqués pour les field_name , on peut trouver un mix de donnée dedant 
         on le crée comme on crée le JS Object
+        kan on fait un for dans un Dictionary alors si on veut accéder au elements : dict_name[key] where key est un des fields
+        on peut fair un dict-Comprehension et cela par la mm valeur de list-Comprehension mais en utiliser 2 paire key:value
     

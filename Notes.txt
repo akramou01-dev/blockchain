@@ -12,6 +12,12 @@ on peut multiplier les strings genre "test" * 10
     STRINGS
         dans les string il est preferer d'utiliser les (") car si on veut utiliser l'apostroph on aura pas besoin de faire l'anti slache 
         si on veut ecrir des string en 2 ligne ou plus on utilise """ some text """  si on on peut utiliser le \n pour sauter la ligne  
+        pour injecter des variables dans la string on peut utiliser la method "format()" qu'on lui donne les var en arguments et on utilisant {}
+            donc l'ordre est important il faut placer le premier mot qu'on veut en premier argument ainsi de suite
+            si on veut bien preciser alors on donne des numero (numero des argument et on commence par 0) dans la string
+            on peut aussi preciser les nom des arguments dans la string 
+            on peut aussi juste introduire le caractére f avant la string 
+                f"I am {name} and i have {age} years old."
     LISTS
         on crée les tableau avec [ ]  
         append() : ajoute un element a la liste (au dernier)
@@ -27,6 +33,13 @@ on peut multiplier les strings genre "test" * 10
             si on a une list de Dictionaries et on fait une copie de cette liste et on modifie les dictionnaries de la copie alors ceux de l'original aussi seront modifier 
                 car la list contient juste les reference de ces dictionnaries 
         les list support le unpacking mais il faut donner autant de var que le nombre d'element du tableau
+        on peut modifier le contenue de la list en utilisant la method "map()"
+            on donne a la fonction map une liste comme 2eme arguments et la reference(le nom) de la fonction qu'on veut executer sur notre liste en premiere arguments
+            on peut utiliser les lambda expression : list(map(lambda el : el *2 ,simple_list))
+        Pour faire un traitement pour tous les elements d'une liste on peut utiliser la method "reduce()" qui prend 3 arguments : la fonctions , la liste et la valeur initiale 
+            on donne que l'operation qu'on veut faire dans la lambda fonction
+            on peut ajouter une "if condition" pour la reduce fonction mais en une seule ligne (if condition else another_value )
+            
     FONCTIONS
         pour declarer une fonction on utilise : def nom_de_la_fonction() : 
         il faut laisse un vide a gauche pour specifier qu'on est encore dans la fonction car ya pas de {} pour declarer le debut et la fin de la fonction
@@ -37,6 +50,13 @@ on peut multiplier les strings genre "test" * 10
             la fonction input lie que du texte si on veut lire des nombre ou boolean il faut le convertir 
         si on declare une var globale et on lui donne une valeur puis on réutilise dans une fonction alors kan on sort de la fonction sa valeur restera la valeur de la variable globale (la valeur original)
             si on veut modifier la var globale on declare que c la var global en utilisant  "global var_name" puis on l'utilise  
+        si on connait pas le nombre d'arguments qu'on veut passer a une fonction alors on declare les arguments comme suit :
+            def fonct_name(*args):
+                pass
+            donc Python va mettre les arguments passer dans une TUPLE puis les traiter
+            si on aura une seule liste qui a plsr elements alros on peut ajouter une * lors de l'utilisation de la fonction pour les traiter comme plsr arguments(les elements de la liste)
+            on peut faire cela aussi pour les dictionnaries mais en utilisant 2 **  lors de l'utilisation de la fonction on lui passe des "named arguments"
+
 
 si on veut faire un commentaire on utilise "#"  pour commenter toute la ligne 
 et si on veut juste ecrire un mot de commentaire dans la ligne on utilise """le commentaire """ et cela nous aide a bien comprendre le code

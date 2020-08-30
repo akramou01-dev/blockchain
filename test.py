@@ -24,21 +24,32 @@
 # print(stats)
 # dict_stats = {key:value for (key, value) in stats }
 # print(dict_stats)
-simple_list = [1,2,3,4,5]
-simple_list.extend([6,7])
-print(simple_list)
+# simple_list = [1,2,3,4,5]
+# simple_list.extend([6,7])
+# print(simple_list)
 
-print(simple_list)
+# print(simple_list)
 
-d ={'name':'akram', 'age':21}
-print(d.items())
+# d ={'name':'akram', 'age':21}
+# print(d.items())
 
-for k, v in d.items():
-    print(k,v)
+# for k, v in d.items():
+#     print(k,v)
 
-t = ('akram',21,'age')
-print(t.index(21))
+# t = ('akram',21,'age')
+# print(t.index(21))
 
-s = {'akram',"melissa", "marouan"}
-s.discard('akram')
-print(s)
+# s = {'akram',"melissa", "marouan"}
+# s.discard('akram')
+# print(s)
+
+
+def unlimited_arguments(*args, **keyword_args): 
+    print(keyword_args)
+    for (key, value) in keyword_args.items():
+        print("{} : {} ".format(key,value ))
+
+
+unlimited_arguments([1,2,"akram",True,5,6,7,8,9], name ="akram", age  = 21)
+
+ 

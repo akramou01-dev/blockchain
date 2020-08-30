@@ -1,5 +1,5 @@
+import functools
 MINING_REWARDS = 10
-
 genesis_block = {
     'previous_hash': '',
     'index': 0,
@@ -101,17 +101,20 @@ def get_balence(participant):
     # il faut aussi enclure les donnée qui ne sont pas encole mined genre dans les open transactions
     open_tx_sender = [tx['amount'] for tx in open_transactions if tx['sender'] == participant]
     tx_sender.append(open_tx_sender)
-    amount_sent = 0
-    for tx in tx_sender:
-        if len(tx) > 0:
-            amount_sent += tx[0]
+    amount_sent = functools.reduce(lambda tx_sum,tx_amnt :  tx_sum + sum(tx_amnt) if len(tx_amnt) > 0 else tx_sum + 0 ,tx_sender,0)
+    # amount_sent = 0
+    # for tx in tx_sender:
+    #     if len(tx) > 0:
+    #         amount_sent += tx[0]
 
     tx_recipient = [[tx['amount'] for tx in block['transactions']
                      if tx['recipient'] == participant] for block in blockchain]
-    amount_recived = 0
-    for tx in tx_recipient:
-        if len(tx) > 0:
-            amount_recived += tx[0]
+
+    #  WE USE THE REDUCE METHOD INSTEAD THE FOR LOOP
+    amount_recived = functools.reduce(lambda tx_sum,tx_amount: tx_sum + sum(tx_amount) if len(tx_amount) > 0 else tx_sum + 0, tx_recipient ,0)
+    # for tx in tx_recipient:
+    #     if len(tx) > 0:
+    #         amount_recived += tx[0]
 
     return amount_recived - amount_sent  
 
@@ -155,8 +158,7 @@ while wating_for_input:
     if not verify_chain():
         print("invalid blockchain")
         break
-    balance = get_balence('Akram')
-    print("the balance is  :" + str(balance))
+    print(" the balance of {} is : {:6.2f}".format("Akram",get_balence("Akram")))
 else:
     print("User left !")
 

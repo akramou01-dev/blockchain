@@ -44,12 +44,14 @@
 # print(s)
 
 
-def unlimited_arguments(*args, **keyword_args): 
-    print(keyword_args)
-    for (key, value) in keyword_args.items():
-        print("{} : {} ".format(key,value ))
+# def unlimited_arguments(*args, **keyword_args): 
+#     print(keyword_args)
+#     for (key, value) in keyword_args.items():
+#         print("{} : {} ".format(key,value ))
 
 
-unlimited_arguments([1,2,"akram",True,5,6,7,8,9], name ="akram", age  = 21)
+# unlimited_arguments([1,2,"akram",True,5,6,7,8,9], name ="akram", age  = 21)
+import json
 
- 
+my_dict = [1,2,3,4]
+print(json.dumps(my_dict).encode())

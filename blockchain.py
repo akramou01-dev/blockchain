@@ -1,9 +1,13 @@
-import functools
+from functools import reduce
+import hashlib
+import json
+
 MINING_REWARDS = 10
 genesis_block = {
     'previous_hash': '',
     'index': 0,
-    'transactions': []
+    'transactions': [],
+    'proof': 100
 }
 blockchain = []
 blockchain.append(genesis_block)
@@ -22,6 +26,28 @@ def get_last_blockchain_value():
     return blockchain[-1]
 
 
+def hash_block(block):
+    return hashlib.sha256(json.dumps(block).encode()).hexdigest()
+    # sha256 is a method to hashing in 64 bits and return a hash in byts so we must call hexdegist
+    
+
+
+def valid_proof(transaction, last_hash, proof):
+    guess = (str(transaction) + str(last_hash) + str(proof)).encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    print(guess_hash)
+    return guess_hash[0:2] == "00"
+
+
+def proof_of_work():
+    last_block = blockchain[-1]
+    last_hash = hash_block(last_block)
+    proof = 0
+    while not valid_proof(open_transactions, last_hash, proof):
+        proof += 1
+    return proof
+
+
 def add_transaction(recipient, sender=owner, amount=1.0):
     """Append a new value as the last value of the blockchain"""
 
@@ -29,13 +55,13 @@ def add_transaction(recipient, sender=owner, amount=1.0):
         'sender': sender,
         'recipient': recipient,
         'amount': amount
-        }
+    }
     if verify_transaction(transaction):
         open_transactions.append(transaction)
         participants.add(recipient)
         participants.add(sender)
         return True
-    return False 
+    return False
 
 
 def get_transaction_value():
@@ -48,8 +74,7 @@ def get_user_choice():
     return input("please enter your choice : ")
 
 
-def hash_block(block):
-    return '-'.join(str(block[key]) for key in block)
+# and the json.dumps is to convert the block into a string
 
 
 def mine_block():
@@ -58,16 +83,20 @@ def mine_block():
     last_block = blockchain[-1]  # acces the last element of the blockchain
     # join sert a joindre des elements d'une liste et les separer par la caractére specefier avant
     hashed_block = hash_block(last_block)
+    proof = proof_of_work()
     reward_transaction = {
-        'sender': 'MINING',
+        'sender': 'Mining',
         'recipient': owner,
         'amount': MINING_REWARDS
-    } 
+    }
     copied_open_transaction = open_transactions[:]
     copied_open_transaction.append(reward_transaction)
+
     block = {'previous_hash': hashed_block,
              'index': len(blockchain),
-             'transactions': copied_open_transaction}
+             'transactions': copied_open_transaction,
+             'proof': proof,
+             }
     blockchain.append(block)
     return True
 
@@ -87,6 +116,9 @@ def verify_chain():
             continue
         if block['previous_hash'] != hash_block(blockchain[index-1]):
             return False
+        if not valid_proof(block['transactions'][:-1],block['previous_hash'],block['proof']):
+            return False
+
     return True
 
 
@@ -99,9 +131,11 @@ def get_balence(participant):
     tx_sender = [[tx['amount'] for tx in block['transactions']
                   if tx['sender'] == participant] for block in blockchain]
     # il faut aussi enclure les donnée qui ne sont pas encole mined genre dans les open transactions
-    open_tx_sender = [tx['amount'] for tx in open_transactions if tx['sender'] == participant]
+    open_tx_sender = [tx['amount']
+                      for tx in open_transactions if tx['sender'] == participant]
     tx_sender.append(open_tx_sender)
-    amount_sent = functools.reduce(lambda tx_sum,tx_amnt :  tx_sum + sum(tx_amnt) if len(tx_amnt) > 0 else tx_sum + 0 ,tx_sender,0)
+    amount_sent = reduce(lambda tx_sum, tx_amnt:  tx_sum + sum(tx_amnt)
+                         if len(tx_amnt) > 0 else tx_sum + 0, tx_sender, 0)
     # amount_sent = 0
     # for tx in tx_sender:
     #     if len(tx) > 0:
@@ -111,12 +145,13 @@ def get_balence(participant):
                      if tx['recipient'] == participant] for block in blockchain]
 
     #  WE USE THE REDUCE METHOD INSTEAD THE FOR LOOP
-    amount_recived = functools.reduce(lambda tx_sum,tx_amount: tx_sum + sum(tx_amount) if len(tx_amount) > 0 else tx_sum + 0, tx_recipient ,0)
+    amount_recived = reduce(lambda tx_sum, tx_amount: tx_sum + sum(tx_amount)
+                            if len(tx_amount) > 0 else tx_sum + 0, tx_recipient, 0)
     # for tx in tx_recipient:
     #     if len(tx) > 0:
     #         amount_recived += tx[0]
 
-    return amount_recived - amount_sent  
+    return amount_recived - amount_sent
 
 
 wating_for_input = True
@@ -132,7 +167,7 @@ while wating_for_input:
     if user_choice == "1":
         tx_data = get_transaction_value()
         recipient, amount = tx_data
-        if add_transaction(recipient, amount=amount): 
+        if add_transaction(recipient, amount=amount):
             print("Transaction added")
         else:
             print("Adding transation failed")
@@ -158,7 +193,8 @@ while wating_for_input:
     if not verify_chain():
         print("invalid blockchain")
         break
-    print(" the balance of {} is : {:6.2f}".format("Akram",get_balence("Akram")))
+    print(" the balance of {} is : {:6.2f}".format(
+        "Akram", get_balence("Akram")))
 else:
     print("User left !")
 

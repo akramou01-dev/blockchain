@@ -104,3 +104,9 @@ Structure de Donnée complexe
         on peut fair un dict-Comprehension et cela par la mm valeur de list-Comprehension mais en utiliser 2 paire key:value
         le unpacking nous donne les keys et n'ont pas les valeurs
     
+Importing Third-Party-Packages
+    Pour importer des third-party-packages on utilise "import package_name" comme on peut utiliser "import package_name as new_name" (Alias)
+    comme on peut importer juste des fonctions depuis le package "from package_name import fonction_name" (on peut introduire les Alias)
+    si on veut 
+
+the json library can convert lists or dictionnaries to a string

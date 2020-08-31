@@ -1,6 +1,14 @@
+#Imports
+
 from functools import reduce
 import hashlib
 import json
+from collections import OrderedDict
+
+#Exports
+
+import hash_util
+
 
 MINING_REWARDS = 10
 genesis_block = {
@@ -26,22 +34,19 @@ def get_last_blockchain_value():
     return blockchain[-1]
 
 
-def hash_block(block):
-    return hashlib.sha256(json.dumps(block).encode()).hexdigest()
-    # sha256 is a method to hashing in 64 bits and return a hash in byts so we must call hexdegist
-    
+
 
 
 def valid_proof(transaction, last_hash, proof):
     guess = (str(transaction) + str(last_hash) + str(proof)).encode()
-    guess_hash = hashlib.sha256(guess).hexdigest()
+    guess_hash = hash_util.hash_string_256(guess)
     print(guess_hash)
-    return guess_hash[0:2] == "00"
+    return guess_hash[0:2] == "00"  # on peut spicifier n'import quelle condition
 
 
 def proof_of_work():
     last_block = blockchain[-1]
-    last_hash = hash_block(last_block)
+    last_hash = hash_util.hash_block(last_block)
     proof = 0
     while not valid_proof(open_transactions, last_hash, proof):
         proof += 1
@@ -51,11 +56,12 @@ def proof_of_work():
 def add_transaction(recipient, sender=owner, amount=1.0):
     """Append a new value as the last value of the blockchain"""
 
-    transaction = {
-        'sender': sender,
-        'recipient': recipient,
-        'amount': amount
-    }
+    # transaction = {
+    #     'sender': sender,
+    #     'recipient': recipient,
+    #     'amount': amount
+    # }
+    transaction = OrderedDict([('sender',sender) , ('recipient',recipient) , ('amount',amount)])
     if verify_transaction(transaction):
         open_transactions.append(transaction)
         participants.add(recipient)
@@ -77,18 +83,19 @@ def get_user_choice():
 # and the json.dumps is to convert the block into a string
 
 
-def mine_block():
+def mine_block(): 
     """Creating the Blocks"""
     # we are using the Dictionaries data structure
     last_block = blockchain[-1]  # acces the last element of the blockchain
     # join sert a joindre des elements d'une liste et les separer par la caractére specefier avant
-    hashed_block = hash_block(last_block)
+    hashed_block = hash_util.hash_block(last_block)
     proof = proof_of_work()
-    reward_transaction = {
-        'sender': 'Mining',
-        'recipient': owner,
-        'amount': MINING_REWARDS
-    }
+    reward_transaction =OrderedDict([
+        ('sender','Mining'),
+        ('recipient',owner),
+        ('amount',MINING_REWARDS)
+    ])
+    print(reward_transaction)
     copied_open_transaction = open_transactions[:]
     copied_open_transaction.append(reward_transaction)
 
@@ -101,7 +108,7 @@ def mine_block():
     return True
 
 
-def print_blockchain_elements():
+ def print_blockchain_elements():
     i = 1
     for i in range(len(blockchain)):
         print("Printing Block N°=", i)

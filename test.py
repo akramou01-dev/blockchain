@@ -51,7 +51,11 @@
 
 
 # unlimited_arguments([1,2,"akram",True,5,6,7,8,9], name ="akram", age  = 21)
-import json
+# import json
 
-my_dict = [1,2,3,4]
-print(json.dumps(my_dict).encode())
+# my_dict = [1,2,3,4]
+# print(json.dumps(my_dict).encode())
+
+import collections 
+
+my_dict = {'name':'Akram','age':21}

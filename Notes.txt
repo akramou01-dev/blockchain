@@ -109,4 +109,7 @@ Importing Third-Party-Packages
     comme on peut importer juste des fonctions depuis le package "from package_name import fonction_name" (on peut introduire les Alias)
     si on veut 
 
+Exporting fonctions from files
+    pour faire un export alors on import le fichier comme on fait avec les third-party-packages
+
 the json library can convert lists or dictionnaries to a string

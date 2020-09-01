@@ -1,11 +1,13 @@
-#Imports
+# Imports
 
 from functools import reduce
 import hashlib
 import json
 from collections import OrderedDict
+import json
+import pickle
 
-#Exports
+# Exports
 
 import hash_util
 
@@ -34,14 +36,67 @@ def get_last_blockchain_value():
     return blockchain[-1]
 
 
+def save_data():
+    with open('blockchain.p', mode="wb") as f:
+        # for binary data we use the "wb" mode
 
+        # f.write(json.dumps(blockchain))
+        # f.write('\n')
+        # f.write(json.dumps(open_transactions))
+        save_data = {
+            'chain': blockchain,
+            'ot': open_transactions
+        }
+        f.write(pickle.dumps(save_data))
+
+
+def load_data():
+    # on a utiliser pickling ( using pickle ) pour garder le mm type de donnée mais on doit 
+    # stocker les information en binaire mais on a paas besoin de overting the data we loaded from the file
+    # les donnée resteront comme ils  sont
+    # mais par contre le json nous donne les données en text alors il va supprimer qlq info 
+    # et du coup on doit les faire overite
+    # alors pour convertire les donnée on a le choix de travailler avec json et avec pickle
+    with open('blockchain.p', mode='rb') as f:
+        file_content =pickle.loads(f.read())
+        global blockchain , open_transactions
+        blockchain = file_content['chain']
+        open_transactions = file_content['ot']
+        # blockchain = json.loads(file_content[0][:-1])
+        # # we want to overite the transactions of each block of the blockchain
+        # blockchain = [{
+        #     'previous_hash': block['previous_hash'],
+        #      'index': block['index'],
+        #      'proof': block['proof'],
+        #      'transactions': [OrderedDict([
+        #             ('sender',tx['sender']),
+        #             ('recipient',tx['recipient']),
+        #             ('amount',tx['amount'])
+        #         ]
+        #      ) for tx in block['transactions']],
+        #     }
+        #     for block in blockchain
+        # ]
+        # #  WE MUST USE THE SAME TYPE OF DATA (si on a travailler avec the ordereddict alors il faut continuer avec )
+        # open_transactions = json.loads(file_content[1])
+        # open_transactions = [OrderedDict([
+        #             ('sender',tx['sender']),
+        #             ('recipient',tx['recipient']),
+        #             ('amount',tx['amount'])
+        #         ]
+        #      )  for tx in open_transactions]
+
+
+load_data()
 
 
 def valid_proof(transaction, last_hash, proof):
     guess = (str(transaction) + str(last_hash) + str(proof)).encode()
+    print(guess)
     guess_hash = hash_util.hash_string_256(guess)
     print(guess_hash)
-    return guess_hash[0:2] == "00"  # on peut spicifier n'import quelle condition
+    # on peut spicifier n'import quelle condition
+    return guess_hash[0:2] == "00"
 
 
 def proof_of_work():
@@ -56,16 +111,13 @@ def proof_of_work():
 def add_transaction(recipient, sender=owner, amount=1.0):
     """Append a new value as the last value of the blockchain"""
 
-    # transaction = {
-    #     'sender': sender,
-    #     'recipient': recipient,
-    #     'amount': amount
-    # }
-    transaction = OrderedDict([('sender',sender) , ('recipient',recipient) , ('amount',amount)])
+    transaction = OrderedDict(
+        [('sender', sender), ('recipient', recipient), ('amount', amount)])
     if verify_transaction(transaction):
         open_transactions.append(transaction)
         participants.add(recipient)
         participants.add(sender)
+        save_data()
         return True
     return False
 
@@ -83,19 +135,20 @@ def get_user_choice():
 # and the json.dumps is to convert the block into a string
 
 
-def mine_block(): 
+def mine_block():
     """Creating the Blocks"""
     # we are using the Dictionaries data structure
     last_block = blockchain[-1]  # acces the last element of the blockchain
     # join sert a joindre des elements d'une liste et les separer par la caractére specefier avant
     hashed_block = hash_util.hash_block(last_block)
     proof = proof_of_work()
-    reward_transaction =OrderedDict([
-        ('sender','Mining'),
-        ('recipient',owner),
-        ('amount',MINING_REWARDS)
+    reward_transaction = OrderedDict([
+        ('sender', 'Mining'),
+        ('recipient', owner),
+        ('amount', MINING_REWARDS)
     ])
     print(reward_transaction)
+    global open_transactions
     copied_open_transaction = open_transactions[:]
     copied_open_transaction.append(reward_transaction)
 
@@ -108,7 +161,7 @@ def mine_block():
     return True
 
 
- def print_blockchain_elements():
+def print_blockchain_elements():
     i = 1
     for i in range(len(blockchain)):
         print("Printing Block N°=", i)
@@ -121,9 +174,9 @@ def verify_chain():
     for (index, block) in enumerate(blockchain):
         if index == 0:
             continue
-        if block['previous_hash'] != hash_block(blockchain[index-1]):
+        if block['previous_hash'] != hash_util.hash_block(blockchain[index-1]):
             return False
-        if not valid_proof(block['transactions'][:-1],block['previous_hash'],block['proof']):
+        if not valid_proof(block['transactions'][:-1], block['previous_hash'], block['proof']):
             return False
 
     return True
@@ -174,6 +227,7 @@ while wating_for_input:
     if user_choice == "1":
         tx_data = get_transaction_value()
         recipient, amount = tx_data
+        print(recipient, amount)
         if add_transaction(recipient, amount=amount):
             print("Transaction added")
         else:
@@ -184,6 +238,7 @@ while wating_for_input:
     elif user_choice == "2":
         if mine_block():
             open_transactions = []
+            save_data()
     elif user_choice == "3":
         print_blockchain_elements()
     elif user_choice == "4":

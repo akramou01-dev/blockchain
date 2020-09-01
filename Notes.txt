@@ -121,3 +121,4 @@ Files
     pour lire plsr ligne d'un file alors on utilise readlines() el nous donne un tableau 
     si on veut lire juste une ligne alors on utilise readline() 
     on peut utiliser le "with block statement" pour ne pas ajouter close() 
+    

@@ -1,3 +1,4 @@
+test = [1,2,3,4,('name',"Akram"),('age',21)]
 with open('demo.txt',mode='w') as f:
 
     # # test = f.read()
@@ -9,6 +10,6 @@ with open('demo.txt',mode='w') as f:
 
     # f.close()
 
-    f.write('Testing if this closes')
+    f.write(str(test))
 
 print('Done')

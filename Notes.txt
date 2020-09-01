@@ -107,9 +107,17 @@ Structure de Donnée complexe
 Importing Third-Party-Packages
     Pour importer des third-party-packages on utilise "import package_name" comme on peut utiliser "import package_name as new_name" (Alias)
     comme on peut importer juste des fonctions depuis le package "from package_name import fonction_name" (on peut introduire les Alias)
-    si on veut 
+    si on veut      
 
 Exporting fonctions from files
     pour faire un export alors on import le fichier comme on fait avec les third-party-packages
 
 the json library can convert lists or dictionnaries to a string
+
+Files 
+    pour crée une fichier on utilise la method "open()"et kan on termine il faut appeler la method "close()"
+    open() on lui donne le nom du fichier (avec l'extention) et on lui donne le mode  du fichier(r:read only, w: write only , r+: read and write)
+    si on oublie close alors il faut que le script termine pour terminer le traitement sur le fichiefr
+    pour lire plsr ligne d'un file alors on utilise readlines() el nous donne un tableau 
+    si on veut lire juste une ligne alors on utilise readline() 
+    on peut utiliser le "with block statement" pour ne pas ajouter close() 

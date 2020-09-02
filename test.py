@@ -59,3 +59,4 @@
 import collections 
 
 my_dict = {'name':'Akram','age':21}
+print(collections.OrderedDict([('name','akram')]))

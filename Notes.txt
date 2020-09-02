@@ -119,6 +119,13 @@ Files
     open() on lui donne le nom du fichier (avec l'extention) et on lui donne le mode  du fichier(r:read only, w: write only , r+: read and write)
     si on oublie close alors il faut que le script termine pour terminer le traitement sur le fichiefr
     pour lire plsr ligne d'un file alors on utilise readlines() el nous donne un tableau 
-    si on veut lire juste une ligne alors on utilise readline() 
+    si on veut l    ire juste une ligne alors on utilise readline() 
     on peut utiliser le "with block statement" pour ne pas ajouter close() 
+    
+
+Error Handling
+    pour capter les err on utilise "try exept"
+    on peut avoir plsr exept statement pour gerer plsr type d'errors comme on peut ajouter exept sans specifier le type d'err et cela va gere tout les errors qui ne sont pas traiter
+    pour le block dans "exept" il faut specifier le type d"err a traiter
+    on peut ajouter on autre block "finally" qui sera executer tout le temps (si on aura err ou pas)
     

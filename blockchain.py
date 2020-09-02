@@ -13,14 +13,7 @@ import hash_util
 
 
 MINING_REWARDS = 10
-genesis_block = {
-    'previous_hash': '',
-    'index': 0,
-    'transactions': [],
-    'proof': 100
-}
 blockchain = []
-blockchain.append(genesis_block)
 open_transactions = []
 owner = 'Akram'
 participants = {'Akram'}
@@ -37,64 +30,87 @@ def get_last_blockchain_value():
 
 
 def save_data():
-    with open('blockchain.p', mode="wb") as f:
-        # for binary data we use the "wb" mode
+    try: 
+        with open('blockchain.txt', mode="w") as f:
+            """ JSON Syntaxe"""
+            # for binary data we use the "wb" mode
 
-        # f.write(json.dumps(blockchain))
-        # f.write('\n')
-        # f.write(json.dumps(open_transactions))
-        save_data = {
-            'chain': blockchain,
-            'ot': open_transactions
-        }
-        f.write(pickle.dumps(save_data))
-
+            f.write(json.dumps(blockchain))
+            f.write('\n')
+            f.write(json.dumps(open_transactions))
+                # Pickle syntaxe
+            # save_data = {
+            #     'chain': blockchain,
+            #     'ot': open_transactions
+            # }
+            # f.write(pickle.dumps(save_data))
+    except:
+        print("Saving failed")
 
 def load_data():
-    # on a utiliser pickling ( using pickle ) pour garder le mm type de donnée mais on doit 
+    global blockchain, open_transactions
+
+    # on a utiliser pickling ( using pickle ) pour garder le mm type de donnée mais on doit
     # stocker les information en binaire mais on a paas besoin de overting the data we loaded from the file
     # les donnée resteront comme ils  sont
-    # mais par contre le json nous donne les données en text alors il va supprimer qlq info 
+    # mais par contre le json nous donne les données en text alors il va supprimer qlq info
     # et du coup on doit les faire overite
     # alors pour convertire les donnée on a le choix de travailler avec json et avec pickle
-    with open('blockchain.p', mode='rb') as f:
-        file_content =pickle.loads(f.read())
-        global blockchain , open_transactions
-        blockchain = file_content['chain']
-        open_transactions = file_content['ot']
-        # blockchain = json.loads(file_content[0][:-1])
-        # # we want to overite the transactions of each block of the blockchain
-        # blockchain = [{
-        #     'previous_hash': block['previous_hash'],
-        #      'index': block['index'],
-        #      'proof': block['proof'],
-        #      'transactions': [OrderedDict([
-        #             ('sender',tx['sender']),
-        #             ('recipient',tx['recipient']),
-        #             ('amount',tx['amount'])
-        #         ]
-        #      ) for tx in block['transactions']],
-        #     }
-        #     for block in blockchain
-        # ]
-        # #  WE MUST USE THE SAME TYPE OF DATA (si on a travailler avec the ordereddict alors il faut continuer avec )
-        # open_transactions = json.loads(file_content[1])
-        # open_transactions = [OrderedDict([
-        #             ('sender',tx['sender']),
-        #             ('recipient',tx['recipient']),
-        #             ('amount',tx['amount'])
-        #         ]
-        #      )  for tx in open_transactions]
-
-
-load_data()
+    try:
+        with open('blockchain.txt', mode='r') as f:
+            # file_content = .loads(f.read())
+            file_content = f.readlines()
+            # blockchain = file_content['chain']
+            # open_transactions = file_content['ot']
+            blockchain = json.loads(file_content[0][:-1])
+            # we want to overite the transactions of each block of the blockchain
+            blockchain = [{
+                'previous_hash': block['previous_hash'],
+                'index': block['index'],
+                'proof': block['proof'],
+                'transactions': [OrderedDict([
+                        ('sender', tx['sender']),
+                        ('recipient', tx['recipient']),
+                        ('amount', tx['amount'])
+                    ]
+                ) for tx in block['transactions']],
+                }
+                for block in blockchain
+            ]
+            #  WE MUST USE THE SAME TYPE OF DATA (si on a travailler avec the ordereddict alors il faut continuer avec )
+            open_transactions = json.loads(file_content[1])
+            open_transactions = [OrderedDict([
+                        ('sender', tx['sender']),
+                        ('recipient', tx['recipient']),
+                        ('amount', tx['amount'])
+                    ]
+                ) for tx in open_transactions]
+    except IOError:
+        # error handlig
+        genesis_block = {
+        'previous_hash': '',
+        'index': 0,
+        'transactions': [],
+        'proof': 100
+        }
+        
+        blockchain.append(genesis_block)
+        open_transactions = []
+        # print("file not found !")
+    except ValueError:
+        print("A Value Error")
+    except: 
+        print("All the other Errors")
+    finally : 
+        # this allways execute 
+        print('Clean up !')
+        
+load_data() 
 
 
 def valid_proof(transaction, last_hash, proof):
     guess = (str(transaction) + str(last_hash) + str(proof)).encode()
-    print(guess)
     guess_hash = hash_util.hash_string_256(guess)
-    print(guess_hash)
     # on peut spicifier n'import quelle condition
     return guess_hash[0:2] == "00"
 
@@ -147,7 +163,6 @@ def mine_block():
         ('recipient', owner),
         ('amount', MINING_REWARDS)
     ])
-    print(reward_transaction)
     global open_transactions
     copied_open_transaction = open_transactions[:]
     copied_open_transaction.append(reward_transaction)
@@ -178,7 +193,6 @@ def verify_chain():
             return False
         if not valid_proof(block['transactions'][:-1], block['previous_hash'], block['proof']):
             return False
-
     return True
 
 

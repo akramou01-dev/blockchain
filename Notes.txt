@@ -129,3 +129,18 @@ Error Handling
     pour le block dans "exept" il faut specifier le type d"err a traiter
     on peut ajouter on autre block "finally" qui sera executer tout le temps (si on aura err ou pas)
     
+
+POO
+    kan on veut utiliser une var d'une classe dans une fonction de la mm classe alors il faut donner comme paramettre a cette fonction "self" pour accéder les diff attribues de cette fonction (self.attribute)
+    on peut modifier les atttributes of a class : ClassName.attribute 
+    si on aura une liste dans la classe et on la modifer depuis une instance de la classe alors ca sera modifer dans les autre instance of the class
+        car les list sont des reference dans la memoire et tout les autres instance pointe la mm reference
+    pour declarer le constructeur de la class on utilise la method __init__ 
+        on crée les attribute dans le contructeur et on leur donne des valeurs dans les paramettres
+    avec le constructeur chaque instance a ses propre attrbutes donc ya pas une attribute qui sera partager par tout les instances
+    pour afficher le contenue d'une classe comme Dictionary alors on a la method "__dict__"
+        comme on peut ajouter une method "ajouter()"
+        comme on peut faire an overite pour la method __repr__  
+    pour declarer un an private attrbutes il faut qu'il commance avec "__" : __attrbt_name
+    pour faire l'heritage on donne le nom de la super classe en paramettre pour la classe hériter le nom de la classe apres de faire un import de la classe ou du fichier
+    pour utiliser le constructeur de la classe maire on utilise super().__init__() (genre on accede le init de super)

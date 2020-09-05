@@ -144,3 +144,12 @@ POO
     pour declarer un an private attrbutes il faut qu'il commance avec "__" : __attrbt_name
     pour faire l'heritage on donne le nom de la super classe en paramettre pour la classe hériter le nom de la classe apres de faire un import de la classe ou du fichier
     pour utiliser le constructeur de la classe maire on utilise super().__init__() (genre on accede le init de super)
+    on peut definir des methods pour la class au quelles on peut acceder juste avec le nom de la class pas avec the instance
+        et cela en ajouter devant la method @classmethod 
+        instead of a self argument we pass "cls" qui nous permet juste d'acceder au attribue de la class 
+    et pour declarer une method static on doit fair "@staticmethod"
+
+    pour les getters and setters on doit dir que c des properties en ajouter "@property" avant les getters 
+        et il peuvent avoir les  mm noms de fonctions 
+        pour avoir la valeur de l'atttrivue privé on ecris son nom et le getter sera executer auto 
+    les proprité ont des getters and setters et les attriute sont always accesible

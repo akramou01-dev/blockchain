@@ -56,7 +56,12 @@
 # my_dict = [1,2,3,4]
 # print(json.dumps(my_dict).encode())
 
-import collections 
+# import collections 
 
-my_dict = {'name':'Akram','age':21}
-print(collections.OrderedDict([('name','akram')]))
+# my_dict = {'name':'Akram','age':21}
+# print(collections.OrderedDict([('name','akram')]))
+
+test = [{"index": 0, "previous_hash": "", "timestamp": 0, "proof": 100, "transactions": []}, {"index": 1, "previous_hash": "c775ae7455f086e2fc68520d31bfebfdb18ffeaceb933085c510d5f8d2177813", "timestamp": 1599149254.3720157, "proof": 92, "transactions": [{"sender": "Mining", "recipient": "Akram", "amount": 10}]}]
+
+test1 = test.__dict__
+print("akrampou "+ test1)

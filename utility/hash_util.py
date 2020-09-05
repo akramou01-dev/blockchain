@@ -1,8 +1,12 @@
-import hashlib
+import hashlib as hl
 import json
 
+# on peut utiliser __all__ pour controler les exports de ce fichier
+# __all__ = ['hash_stri#ng_256','hash_block']
+
+
 def hash_string_256(string):
-    return hashlib.sha256(string).hexdigest()
+    return hl.sha256(string).hexdigest()
 
 def hash_block(block):
     hashable_block = block.__dict__.copy()

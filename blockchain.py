@@ -8,15 +8,15 @@ import json
 import pickle
 from block import Block
 from transaction import Transaction
-from verification import Verification
+from utility.verification import Verification
 
 # Exports
 
-import hash_util
+from utility import hash_util
 
 MINING_REWARDS = 10
 
-
+print(__name__)
 class Blockchain():
     def __init__(self, hosting_node_id):
         # Initializing the empty blockchain

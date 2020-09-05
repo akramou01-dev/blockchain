@@ -1,7 +1,7 @@
 
 from blockchain import Blockchain
 from uuid import uuid4
-from verification import Verification
+from utility.verification import Verification
 
 
 class Node:
@@ -66,6 +66,7 @@ class Node:
             print("User left !")
         print('Programme terminer !')
 
-
-node = Node()
-node.listen_for_input()
+# on va verifier le contexte de l'execution si c le fichier principale ou bien un fichier importer 
+if __name__ == '__main__':
+    node = Node()
+    node.listen_for_input()

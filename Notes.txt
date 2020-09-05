@@ -153,3 +153,22 @@ POO
         et il peuvent avoir les  mm noms de fonctions 
         pour avoir la valeur de l'atttrivue privé on ecris son nom et le getter sera executer auto 
     les proprité ont des getters and setters et les attriute sont always accesible
+
+
+Modules and third party packages    
+    on peut regrouper plsr fichier dans un seul folder et pour avoir ces fichier comme des packages il faut ajouter un fichier __init__.py 
+        l'existance du fichier nous facilit l'importation des fichier depuis le dossier
+    le __pycache folder hold the compiled code of our script so after we edit our code python use the compiled code and edit it to go faster
+    pour chaque module il est preferable de faire un commentaire au debut de chaque fichier pour decrire le role de ce module (ou fichier)
+    dans python tout est accisible mais pour dir que cette fonction ou cette var elle ne peut pas etre exporter alors il faut commencer son nom avec _
+    pour controler les exports d'un fichier  on peut aussi overiting le __all__ attribute en lui donnant une liste qui contient les nom des method et object qui seront exporter
+    comme on peut le overited dans le fichier __init__ kan a declarer pour pouvoir faire des exports
+        mais il faut importer depuis tout le packages(folder)
+    pour savoir si ce module va s'executer directement ou va etre importer alors on utilise the __name__ var 
+        __name__ == '__main__' si on est dans le fichier qui va directement s"executer the main file 
+        __name__ == le nom du fichier ; si on est dans un fichier qui va etre en qlq sorte s'importer dans un autre module
+        si un fichier est importer alors tout le contenue du fichier sera executer
+        on peut avoir des fichier qui vont directement s'executer et qui sont aussi importer 
+        
+    
+

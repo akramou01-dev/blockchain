@@ -169,6 +169,8 @@ Modules and third party packages
         __name__ == le nom du fichier ; si on est dans un fichier qui va etre en qlq sorte s'importer dans un autre module
         si un fichier est importer alors tout le contenue du fichier sera executer
         on peut avoir des fichier qui vont directement s'executer et qui sont aussi importer 
-        
+    
+
+    pour installer un package on utilise pip install
     
 

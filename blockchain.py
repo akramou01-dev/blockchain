@@ -24,8 +24,9 @@ class Blockchain():
         # on peut declarer chain et open_transactions comme des attribute privé
         self.chain = [genesis_block]
         # for the inhandle transactions
-        self.__open_transactions = []
+        self.open_transactions = []
         self.load_data()
+
         self.hosting_node = hosting_node_id
 
     # Getters
@@ -148,6 +149,8 @@ class Blockchain():
 
     def add_transaction(self, recipient, sender, amount=1.0):
         """Append a new value as the last value of the blockchain"""
+        if self.hosting_node == None:
+            return False
         transaction = Transaction(sender, recipient, amount)
         if Verification.verify_transaction(transaction, self.get_balence):
             self.open_transactions.append(transaction)
@@ -158,6 +161,8 @@ class Blockchain():
     def mine_block(self):
         """Creating the Blocks"""
         # we are using the Dictionaries data structure
+        if self.hosting_node == None:
+            return False
         last_block = self.__chain[-1]  # acces the last element of the blockchain
         # join sert a joindre des elements d'une liste et les separer par la caractére specefier avant
         hashed_block = hash_util.hash_block(last_block)

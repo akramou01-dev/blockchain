@@ -9,6 +9,7 @@ import pickle
 from block import Block
 from transaction import Transaction
 from utility.verification import Verification
+from wallet import Wallet
 
 # Exports
 
@@ -33,7 +34,6 @@ class Blockchain():
     @property
     def chain(self):
         return self.__chain[:]
-
     #Setters
     @chain.setter
     def chain(self,value):
@@ -41,7 +41,7 @@ class Blockchain():
     
 
     def get_open_transactions(self):
-        return self.__open_transactions[:]
+        return self.open_transactions[:]
 
     def load_data(self):
         # on a utiliser pickling ( using pickle ) pour garder le mm type de donnée mais on doit
@@ -61,7 +61,7 @@ class Blockchain():
                 updated_blockchain = []
                 for block in blockchain:
                     converted_tx = [Transaction(
-                        tx['sender'], tx['recipient'], tx['amount']) for tx in block['transactions']]
+                        tx['sender'], tx['recipient'],tx['signature'], tx['amount']) for tx in block['transactions']]
                     updated_block = Block(
                         block['index'], block['previous_hash'], converted_tx, block['proof'], block['timestamp'])
                     updated_blockchain.append(updated_block)
@@ -72,7 +72,7 @@ class Blockchain():
             updated_transactions = []
             for tx in open_transactions:
                 updated_transaction = Transaction(
-                    tx['sender'], tx['recipient'], tx['amount'])
+                    tx['sender'], tx['recipient'],tx['signature'], tx['amount'])
                 updated_transactions.append(updated_transaction)
 
             self.open_transactions = updated_transactions
@@ -147,11 +147,13 @@ class Blockchain():
             return None
         return self.__chain[-1]
 
-    def add_transaction(self, recipient, sender, amount=1.0):
+    def add_transaction(self, recipient,sender,signature, amount=1.0):
         """Append a new value as the last value of the blockchain"""
         if self.hosting_node == None:
             return False
-        transaction = Transaction(sender, recipient, amount)
+        transaction = Transaction(sender, recipient,signature, amount)
+        if not Wallet.verify_transaction(transaction):
+            return False
         if Verification.verify_transaction(transaction, self.get_balence):
             self.open_transactions.append(transaction)
             self.save_data()
@@ -168,8 +170,11 @@ class Blockchain():
         hashed_block = hash_util.hash_block(last_block)
         proof = self.proof_of_work()
         reward_transaction = Transaction(
-            'Mining', self.hosting_node, MINING_REWARDS)
+            'Mining', self.hosting_node,'',MINING_REWARDS)
         copied_open_transaction = self.open_transactions[:]
+        for tx in copied_open_transaction:
+            if not Wallet.verify_transaction(tx):
+                return False
         copied_open_transaction.append(reward_transaction)
         block = Block(len(self.__chain), hashed_block,
                       copied_open_transaction, proof)

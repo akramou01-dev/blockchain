@@ -52,11 +52,6 @@ class Wallet:
         h = SHA256.new((str(transaction.sender) + str(transaction.recipient) + str(transaction.amount)).encode('utf8'))
         return verifier.verify(h, binascii.unhexlify(transaction.signature))
 
-
-
-
-
-
     def generate_keys(self):
         private_key = RSA.generate(1024, Crypto.Random.new().read)
         public_key = private_key.publickey()

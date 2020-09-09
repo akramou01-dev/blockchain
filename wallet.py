@@ -24,8 +24,10 @@ class Wallet:
                 private_key = keys[1]
                 self.public_key = public_key 
                 self.private_key = private_key
+                return True
         except IOError: 
             print("loading failed")
+            return False
 
     
     def save_to_file(self): 
@@ -35,11 +37,13 @@ class Wallet:
                     f.write(self.public_key)
                     f.write("\n")
                     f.write(self.private_key)
+                    return True
             except IOError:
-                print("Saving failed...")
+                print("Saving f ailed...")
+                return False
 
 
-    def sign_transaction(self,sender,recipient,amount):
+    def sign_transaction(self ,sender,recipient,amount):
         signer = PKCS1_v1_5.new(RSA.import_key(binascii.unhexlify(self.private_key )))
         h = SHA256.new((str(sender) + str(recipient) + str(amount)).encode('utf8'))
         signature = signer.sign(h)

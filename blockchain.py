@@ -150,21 +150,19 @@ class Blockchain():
     def add_transaction(self, recipient,sender,signature, amount=1.0):
         """Append a new value as the last value of the blockchain"""
         if self.hosting_node == None:
-            return False
+            return None
         transaction = Transaction(sender, recipient,signature, amount)
-        if not Wallet.verify_transaction(transaction):
-            return False
         if Verification.verify_transaction(transaction, self.get_balence):
             self.open_transactions.append(transaction)
             self.save_data()
             return True
-        return False
+        return None
 
     def mine_block(self):
         """Creating the Blocks"""
         # we are using the Dictionaries data structure
         if self.hosting_node == None:
-            return False
+            return None
         last_block = self.__chain[-1]  # acces the last element of the blockchain
         # join sert a joindre des elements d'une liste et les separer par la caractére specefier avant
         hashed_block = hash_util.hash_block(last_block)
@@ -181,4 +179,4 @@ class Blockchain():
         self.__chain.append(block)
         self.open_transactions = []
         self.save_data()
-        return True
+        return block

@@ -172,5 +172,10 @@ Modules and third party packages
     
 
     pour installer un package on utilise pip install
+
+HTTP requests with Flask
+    donc pour ajouter une route on fait une @app.route()et on lui donne en paramettre le path et la methode( qui contient une list de tout les methos)
+    pour convertir des donnée au json on peut importer une lib depuis Flask "jsonify"
+    on envoie le status code dans le response en tuple (data,status_code)
     
 

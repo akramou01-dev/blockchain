@@ -117,6 +117,8 @@ class Blockchain():
         return proof
 
     def get_balence(self):
+        if self.hosting_node == None:
+            return None
         participant = self.hosting_node
         tx_sender = [[tx.amount for tx in block.transactions
                       if tx.sender == participant] for block in self.__chain]
@@ -150,13 +152,13 @@ class Blockchain():
     def add_transaction(self, recipient,sender,signature, amount=1.0):
         """Append a new value as the last value of the blockchain"""
         if self.hosting_node == None:
-            return None
+            return False
         transaction = Transaction(sender, recipient,signature, amount)
         if Verification.verify_transaction(transaction, self.get_balence):
             self.open_transactions.append(transaction)
             self.save_data()
             return True
-        return None
+        return False
 
     def mine_block(self):
         """Creating the Blocks"""

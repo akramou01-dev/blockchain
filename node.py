@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request , send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from wallet import Wallet
 from flask_cors import CORS
 from blockchain import Blockchain
@@ -13,7 +13,7 @@ CORS(app)
 
 @app.route('/', methods=['GET'])
 def get_ui():
-    return send_from_directory('ui','node.html')
+    return send_from_directory('ui', 'node.html')
 
 
 @app.route('/walette', methods=['GET'])

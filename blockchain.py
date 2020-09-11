@@ -26,9 +26,9 @@ class Blockchain():
         self.chain = [genesis_block]
         # for the inhandle transactions
         self.open_transactions = []
-        self.load_data()
-
         self.hosting_node = hosting_node_id
+        self.peer_nodes = set()
+        self.load_data()
 
     # Getters
     @property
@@ -66,17 +66,19 @@ class Blockchain():
                         block['index'], block['previous_hash'], converted_tx, block['proof'], block['timestamp'])
                     updated_blockchain.append(updated_block)
 
-            self.chain = updated_blockchain
-            #  WE MUST USE THE SAME TYPE OF DATA (si on a travailler avec the ordereddict alors il faut continuer avec )
-            open_transactions = json.loads(file_content[1])
-            updated_transactions = []
-            for tx in open_transactions:
-                updated_transaction = Transaction(
-                    tx['sender'], tx['recipient'],tx['signature'], tx['amount'])
-                updated_transactions.append(updated_transaction)
-
-            self.open_transactions = updated_transactions
-
+                self.chain = updated_blockchain
+                #  WE MUST USE THE SAME TYPE OF DATA (si on a travailler avec the ordereddict alors il faut continuer avec )
+                print("akramou"+ file_content[2])
+                peer_nodes= json.loads(file_content[2])
+                self.peer_nodes = set(peer_nodes)
+                updated_transactions = []
+                open_transactions = json.loads(file_content[1])[:-1]
+                for tx in open_transactions:
+                    updated_transaction = Transaction(
+                        tx['sender'], tx['recipient'],tx['signature'], tx['amount'])
+                    updated_transactions.append(updated_transaction)
+                self.open_transactions = updated_transactions
+               
         except (IOError, IndexError):
             # error handlig
             print('handled exception...')
@@ -99,6 +101,9 @@ class Blockchain():
                 f.write('\n')
                 saveable_tx = [tx.__dict__ for tx in self.open_transactions]
                 f.write(json.dumps(saveable_tx))
+                f.write('\n')
+                f.write(json.dumps(list(self.peer_nodes)))
+
                 # Pickle syntaxe
                 # save_data = {
                 #     'chain': blockchain,
@@ -182,3 +187,16 @@ class Blockchain():
         self.open_transactions = []
         self.save_data()
         return block
+
+
+    def add_peer_node(self,node):
+        self.peer_nodes.add(node)
+        self.save_data()
+
+    def remove_peer_node(self,node):
+        self.peer_nodes.discard(node)
+        self.save_data()
+
+    def get_all_nodes(self):
+        print(self.peer_nodes)
+        return list(self.peer_nodes)

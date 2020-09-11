@@ -6,15 +6,30 @@ from blockchain import Blockchain
 app = Flask(__name__)
 wallet = Wallet()
 blockchain = Blockchain(wallet.public_key)
-# wallet.create_keys()
+# wallet.create_keys()  
 CORS(app)
+print("all nodes" + str(blockchain.get_all_nodes()))
 # Get Routes
 
 
 @app.route('/', methods=['GET'])
-def get_ui():
+def get_node_ui():
     return send_from_directory('ui', 'node.html')
 
+
+
+@app.route('/network', methods=['GET'])
+def get_network_ui():
+    return send_from_directory('ui', 'network.html')
+
+
+@app.route('/nodes',methods=['GET'])
+def get_nodes():
+    all_nodes = blockchain.get_all_nodes()
+    response={
+        'all_nodes': all_nodes
+    }
+    return jsonify(response) , 200
 
 @app.route('/walette', methods=['GET'])
 def load_keys():
@@ -97,6 +112,28 @@ def mine():
         return jsonify(response), 500
 
 
+@app.route('/node',methods=['POST'])
+def add_node():
+    values = request.get_json()
+    if not values: 
+        response = {
+            'message': 'No Data'
+        } 
+        return jsonify(response) , 500
+    if 'node' not  in  values:
+        response = {
+            'message': 'No node data found'
+        } 
+        return jsonify(response) , 500
+    node = values['node']
+    blockchain.add_peer_node(node)
+    response = {
+        'message':'node added successfuly',
+        'all_nodes':blockchain.get_all_nodes()
+    }
+    return jsonify(response), 201   
+
+
 @app.route('/transaction', methods=['POST'])
 def add_transaction():
     print('staaaarts')
@@ -142,6 +179,8 @@ def add_transaction():
         return jsonify(response), 500
 
 
+
+
 @app.route('/walette', methods=['POST'])
 def create_keys():
     wallet.create_keys()
@@ -157,6 +196,22 @@ def create_keys():
     else:
         response = {'message': 'saving the keys failed !'}
         return jsonify(response), 500
+
+# DELETE Routes
+
+@app.route('/node/<node_url>',methods=['DELETE'])
+def remove_node(node_url):
+    if node_url == '' or node_url ==None:
+        response = {
+            'message':"No Node found"
+        }
+        return jsonify(response) , 500 
+    blockchain.remove_peer_node(node_url)
+    response = {
+        'message':'Node removed',
+        'all_nodes': blockchain.get_all_nodes()
+    }
+    return jsonify(response) , 200
 
 
 if __name__ == '__main__':

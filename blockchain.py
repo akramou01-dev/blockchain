@@ -34,9 +34,9 @@ class Blockchain():
         self.peer_nodes = set()
         self.resolve_conflits = False
         self.load_data()
-        
 
     # Getters
+
     @property
     def chain(self):
         return self.__chain[:]
@@ -260,27 +260,39 @@ class Blockchain():
         stored_transactions = self.open_transactions[:]
         for itx in block['transactions']:
             for opentx in stored_transactions:
-                if  opentx.sender == itx['sender'] and opentx.recipient == itx['recipient'] and opentx.amount== itx['amount'] and opentx.signature == itx['signature']:
+                if opentx.sender == itx['sender'] and opentx.recipient == itx['recipient'] and opentx.amount == itx['amount'] and opentx.signature == itx['signature']:
                     # remove all the transactions that are redendent (dans le premier et le 2eme serveur)
                     try:
                         self.open_transactions.remove(opentx)
                     except ValueError:
-                        print('item was already removed')  
+                        print('item was already removed')
         self.save_data()
         return True
 
     def resolve(self):
+        winner_chain = self.chain
+        replace = False
         for node in self.peer_nodes:
             url = "http://{}/chain".format(node)
-            try: 
+            try:
                 response = requests.get(url)
                 node_chain = response.json()
-                node_chain = [Block(block['index'],block['previous_hash'],block['transactions'],block['proof'],block['timestamp']) for block in node_chain]
-                node_chain.transactions = [Transaction(tx['sender'],tx['recipient'],tx['signature'],tx['amount']) for tx in node_chain['transactions'] ]
+                node_chain = [Block(
+                    block['index'],
+                    block['previous_hash'],
+                    [Transaction(tx['sender'], tx['recipient'], tx['signature'],
+                                 tx['amount']) for tx in block['transactions']],
+                    block['proof'],
+                    block['timestamp']) for block in node_chain]
                 node_chain_length = len(node_chain)
-                local_chain_length = len(self.chain)
-
-
-            except requests.exceptions.ConnectionError : 
+                local_chain_length = len(winner_chain)
+                if node_chain_length > local_chain_length and Verification.verify_chain(node_chain):
+                    winner_chain = node_chain
+            except requests.exceptions.ConnectionError:
                 continue
-
+        self.resolve_conflits = False
+        self.chain = winner_chain
+        if replace:
+            self.open_transactions = []
+        self.save_data()
+        return replace

@@ -87,13 +87,13 @@ def get_transaction():
 
 @app.route('/mine', methods=['POST'])
 def mine():
+    print(blockchain.resolve_conflits)
     if blockchain.resolve_conflits: 
         response = {
             'messsage':'resolve conflict first, block not added'
         }
         return jsonify(response) , 409      
     block = blockchain.mine_block()
-    print(block)
     if block != None:
         dict_block = block.__dict__.copy()
         dict_block['transactions'] = [
@@ -275,6 +275,19 @@ def broadcast_block():
         return jsonify(response), 409
         # status code 409 means that the data sent is invalid
 
+
+@app.route('/resolve-conflicts', methods=['POST'])
+def resolve_conflicts():
+    replaced = blockchain.resolve()
+    if replaced:
+        response= {
+            'message':'Chain replaced'
+        }
+    else:
+        response ={
+            'message':'Local chain capted'
+        }
+    return jsonify(response) , 200
 
 # DELETE Routes
 

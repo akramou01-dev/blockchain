@@ -191,6 +191,12 @@
             >
               Mine Coins
             </button>
+            <button
+              class="btn btn-warning"
+              @click="onResolve"
+            >
+              Resolve Conclicts
+            </button>
           </div>
         </div>
         <div class="row">
@@ -388,6 +394,21 @@
                 vm.funds = res.data.funds;
               })
               .catch((err) => {
+                console.log("this is the err :",err)
+                vm.success = null;
+                vm.error = err.response.data.message;
+              });
+          },
+          onResolve: function(){
+            var vm = this;
+            axios
+              .post("/resolve-conflicts")
+              .then((res) => {
+                vm.error = null;
+                vm.success = res.data.message;
+              })
+              .catch((err) => {
+                console.log("this is the err :",err)
                 vm.success = null;
                 vm.error = err.response.data.message;
               });
